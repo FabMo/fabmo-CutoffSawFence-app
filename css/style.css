@@ -1,0 +1,66 @@
+body {
+	margin-top: 10px;
+}
+
+#ctrl-xdisplay{
+    font-size: 48px;
+    text-align: right;
+    height: 80px;
+	width: 275px;
+}
+
+#ctrl-xinput {
+	font-size: 48px;
+	text-align: right;
+	height: 80px;
+	width: 275px;
+}
+
+.btn-moveTool {
+	font-size: 48px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 232, 15);
+    height: 80px;
+    width: 275px;
+}
+
+.ready {
+    background-color: green;
+}
+
+.not-ready {
+    background-color: red;
+}
+
+.btn-keypad {
+	font-size: 48px;
+    color: rgb(255, 255, 255);
+	background-color: blue;
+	height: 90px;
+	width: 90px;
+}
+
+.btn-backspace {
+	font-size: 48px;
+    color: rgb(255, 255, 255);
+	background-color: blue;
+	height: 90px;
+	width: 90px;
+}
+
+#ctrl-xdisplay2{
+    font-size: 48px;
+    text-align: right;
+    height: 80px;
+	width: 275px;
+}
+
+.part-input {
+	font-size: 24px;
+	height: 60px;
+}
+
+#config-system-config {
+	font-family: monospace;
+	word-wrap: break-word;
+}

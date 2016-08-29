@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fabmo Fence</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/fabmo.js"></script>
+    <script type="text/javascript">
+        var fabmo = new FabMoDashboard();
+    </script>
+    <div class="container">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#tab-manualControl" role="tab" data-toggle="tab">Manual Control</a></li>
+        <li><a href="#tab-listControl" role="tab" data-toggle="tab">List Control</a></li>
+        <li><a href="#tab-autoControl" role="tab" data-toggle="tab">Auto Control</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Control Pane -->
+        <div class="tab-pane active" id="tab-manualControl">
+            
+            <h3>Current Length</h3>
+              <p></p>
+              <p>
+              <form class="form-inline" id="form-nav">
+                <div class="form-group">
+                  <div class="input-group">
+                      <!-- <span class="input-group-addon">X</span> -->
+                      <input type="text" class="form-control num-input" id="ctrl-xdisplay" value="????" readonly>
+                  </div>
+                </div>
+                </form>
+              </p>
+              </p>
+
+            <p>Enter the length of the cut</p>
+
+              <p>
+              <form class="form-inline" id="form-nav">
+                <div class="form-group has-success">
+                  <div class="input-group">
+                      <!-- <span class="input-group-addon">X</span> -->
+                      <input type="text" class="form-control num-input" id="ctrl-xinput" readonly>
+                      <button id="clear-num" class="btn-clear">Clear</button>
+                  </div>
+                </div>
+              </form>
+              </p>
+              <button id="nav-go" class="btn-moveTool">Move Tool</button>
+              </p>
+              </p>
+
+              <button data-id="1" class="btn-keypad">1</button>
+              <button data-id="2" class="btn-keypad">2</button>
+              <button data-id="3" class="btn-keypad">3</button>
+              <p></p>
+              <button data-id="4" class="btn-keypad">4</button>
+              <button data-id="5" class="btn-keypad">5</button>
+              <button data-id="6" class="btn-keypad">6</button>
+              <p></p>
+              <button data-id="7" class="btn-keypad">7</button>
+              <button data-id="8" class="btn-keypad">8</button>
+              <button data-id="9" class="btn-keypad">9</button>
+              <p></p>
+              <button data-id="0" class="btn-keypad">0</button>
+              <button data-id="." class="btn-keypad">.</button>
+              <button id="back-space" class="btn-backspace">X</button>
+
+              <script src="js/control.js"></script>
+
+        </div>
+        
+        <div class="tab-pane" id="tab-listControl">
+            <h2>List Selection of parts</h2>
+            
+            <h3>Current Length</h3>
+              <p></p>
+              <p>
+              <form class="form-inline" id="form-nav2">
+                <div class="form-group">
+                  <div class="input-group">
+                      <!-- <span class="input-group-addon">X</span> -->
+                      <input type="text" class="form-control num-input" id="ctrl-xdisplay2" value="????" readonly>
+                  </div>
+                </div>
+                </form>
+              </p>
+              </p>
+
+              <form>
+                <select id="part-list" class="part-input">
+                  <option value="120.00">000925 Table Side 96 - 120.00</option>
+                  <option value="61.25">002628 Bar Tool PRS48 61.25</option>
+                  <option value="73.25">002629 Bar Tool PRS60 73.25</option>
+                  <option value="85.25">002630 Bar Tool PRS72 85.25</option>
+                </select>
+              </form>
+              </p>
+              <button id="nav-list" class="btn-moveTool ready">Move Tool</button>
+              </p>
+              </p>
+            <script src="js/dashboard.js"></script>
+        </div>
+
+         <div class="tab-pane" id="tab-autoControl">
+            <h2>List Selection of parts with multiple parts cut from the same stick of material</h2>
+
+            <p>This page will contain a pull-down list of known parts. This list will contain a part number, description and length of the part. There will also be options for cutting multiple parts out of the same stick of material. The stop will move to the proper length once the GO button is pressed and initiate the cutting cycle, move to the next length and cut again until the material is exhausted. An image of the cross section of the material to be cut is one requested feature that will most likely be added.</p>
+
+            <script src="js/job.js"></script>
+        </div>
+
+      </div> <!-- tab content -->
+    </div><!-- container -->
+
+    <script type="text/javascript">        
+        // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
+        $(document).ready(function() {
+          $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+          });
+        });
+    </script>
+  </body>
+</html>
