@@ -97,10 +97,13 @@
 
               <form>
                 <select id="part-list" class="part-input">
-                  <option value="120.00">000925 Table Side 96 - 120.00</option>
-                  <option value="61.25">002628 Bar Tool PRS48 61.25</option>
-                  <option value="73.25">002629 Bar Tool PRS60 73.25</option>
-                  <option value="85.25">002630 Bar Tool PRS72 85.25</option>
+						<option value="part" selected disabled>select part to cut</option>
+						<!--
+                  <option value="120.00"> 000925 Table Side  96     120.00</option>
+                  <option value="61.25">  002628 Bar Tool  PRS48  61.25</option>
+                  <option value="73.25">  002629 Bar Tool  PRS60  73.25</option>
+                  <option value="85.25">  002630 Bar Tool  PRS72  85.25</option>
+						-->
                 </select>
               </form>
               </p>
@@ -121,7 +124,10 @@
       </div> <!-- tab content -->
     </div><!-- container -->
 
-    <script type="text/javascript">        
+    <script type="text/javascript">
+
+		  var partList
+			        
         // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
         $(document).ready(function() {
           $(window).keydown(function(event){
@@ -130,7 +136,20 @@
               return false;
             }
           });
-        });
+
+			jQuery.getJSON("json/test.json", function(json) {
+				partList = json      
+			})
+			.done(function() {
+				//console.log(parts)
+				for(i=0;i<partList.part.length;i++){
+					var option = "<option>" + partList.part[i].partNo + " " + partList.part[i].angle + "</option>"
+					$("#part-list").append(option)
+				}
+			})
+
+        });			
+
     </script>
   </body>
 </html>
