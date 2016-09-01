@@ -4,8 +4,11 @@ body {
 
 #myCanvas{
 	position: absolute;
-	left: 440px;
-	top:80px;
+	/*
+	left: 0px;
+	top:400px;
+	*/
+	border: solid 2px #ddd;
 	background: #fff;
 
 }
@@ -14,7 +17,7 @@ body {
     font-size: 48px;
     text-align: right;
     height: 80px;
-	width: 275px;
+	 width: 275px;
 }
 
 #ctrl-xinput {

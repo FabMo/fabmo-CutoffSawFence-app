@@ -96,7 +96,7 @@
               </p>
 
               <form>
-                <select id="part-list" class="part-input">
+                <select id="part-list" class="part-input" autocomplet="off">
 						<option value="part" selected disabled>select part to cut</option>
 						<!--
                   <option value="120.00"> 000925  Table Side    96  120.00</option>
@@ -111,6 +111,7 @@
               </p>
               </p>
             <script src="js/dashboard.js"></script>
+				<canvas id="myCanvas" class="form-group"></canvas>
         </div>
 
          <div class="tab-pane" id="tab-autoControl">
@@ -124,13 +125,12 @@
       </div> <!-- tab content -->
     </div><!-- container -->
 
-	<canvas id="myCanvas"></canvas>
+	
 
     <script type="text/javascript">
 
 		//TODO
 		//
-		//add canvas for image
 
 		var partList
 		var part //selected part obj
@@ -161,32 +161,63 @@
 
 			c = document.getElementById("myCanvas")
 			ctx = c.getContext("2d")
-			ctx.canvas.width = $(window).innerWidth()-300
-			ctx.canvas.height = $(window).innerHeight()-100
+
 				for(i=0;i<partList.part.length;i++){
 					if((document.getElementById("part-list").value)==(partList.part[i].partNo)){
 						part=partList.part[i]
 					}
 				}
-			console.log(part)
+			//console.log(part)
+			ctx.canvas.width = parseInt(part.len*5)+250//$(window).innerWidth()-300
+			ctx.canvas.height = 200
+
+
 			ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
-			ctx.fillStyle="#eee"
-			ctx.strokeStyle="#666"
+			//
+			ctx.font = "12px Arial"
+			ctx.fillStyle="#666"
+			ctx.fillText( "TOP",8,18)
+			ctx.fillText( "END",(part.len*5)+48,18)
+
 			ctx.lineWidth="2"
-			//document.getElementById("myCanvas").style.left=""
-			ctx.rect(5,5,parseFloat(part.len*2)+5,40+5)
-			ctx.fill()
+			ctx.strokeStyle="#ddd"
+			ctx.moveTo(parseFloat(part.len*5)+40,0)
+			ctx.lineTo(parseFloat(part.len*5)+40,ctx.canvas.height)
 			ctx.stroke()
+
+			ctx.beginPath()
+			ctx.fillStyle="#eee"
+			ctx.strokeStyle="#333"
+			ctx.lineWidth="1"
+			ctx.rect(20,ctx.canvas.height/2-20,parseFloat(part.len*5),part.width*5)
+			ctx.rect((part.len*5)+140,ctx.canvas.height/2-20,parseFloat(part.height*5),part.width*5)
+			//ctx.fill()
+			ctx.stroke()
+
 			ctx.font = "16px Arial"
 			ctx.fillStyle="#ff0000"
-			ctx.fillText( (parseFloat(part.len)).toFixed(2) + "\"",(part.len)-15,80)		
+			ctx.fillText( (parseFloat(part.len)).toFixed(3) + "\"",parseInt(part.len*2.5),(ctx.canvas.height/2)+(parseInt(part.width*5))+20)
+			ctx.fillText( (parseFloat(part.height)).toFixed(3) + "\"",parseInt(part.len*5+130),(ctx.canvas.height/2)+(parseInt(part.width*5))+20)
+			ctx.fillText( (parseFloat(part.width)).toFixed(3) + "\"",parseInt(part.len*5+190),(ctx.canvas.height/2))
+
+			//dim lines
+			ctx.strokeStyle="#ff0000"		
 		
 
 		}
 
 		$( "#part-list" ).change(function() {
   			draw();
-		});		
+		});	
+
+		$(window).resize(function(){
+			draw()
+		})
+
+		window.onload = function(){
+			setTimeout("draw();", 1000);
+		};
+	
 
     </script>
   </body>

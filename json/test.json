@@ -1,6 +1,6 @@
 {"part":[
-    {"partNo":"000925", "type":"Table Side", "len":"120.00"},
-    {"partNo":"002628", "type":"Bar Tool PRS", "len":"61.25"},
-    {"partNo":"002629", "type":"Bar Tool PRS", "len":"73.25"},
-    {"partNo":"002630", "type":"Bar Tool PRS", "len":"85.25"}
+    {"partNo":"000925", "type":"Table Side", "len":"120.00", "width":"6.00", "height":"4"},
+    {"partNo":"002628", "type":"Bar Tool PRS", "len":"61.25", "width":"3.00", "height":"2"},
+    {"partNo":"002629", "type":"Bar Tool PRS", "len":"73.25", "width":"3.00", "height":"3"},
+    {"partNo":"002630", "type":"Bar Tool PRS", "len":"85.25", "width":"3.00", "height":"1"}
 ]}
