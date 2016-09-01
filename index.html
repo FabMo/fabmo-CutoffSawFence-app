@@ -99,10 +99,10 @@
                 <select id="part-list" class="part-input">
 						<option value="part" selected disabled>select part to cut</option>
 						<!--
-                  <option value="120.00"> 000925 Table Side  96     120.00</option>
-                  <option value="61.25">  002628 Bar Tool  PRS48  61.25</option>
-                  <option value="73.25">  002629 Bar Tool  PRS60  73.25</option>
-                  <option value="85.25">  002630 Bar Tool  PRS72  85.25</option>
+                  <option value="120.00"> 000925  Table Side    96  120.00</option>
+                  <option value="61.25">  002628  Bar Tool PRS  48   61.25</option>
+                  <option value="73.25">  002629  Bar Tool PRS  60   73.25</option>
+                  <option value="85.25">  002630  Bar Tool PRS  72   85.25</option>
 						-->
                 </select>
               </form>
@@ -124,9 +124,16 @@
       </div> <!-- tab content -->
     </div><!-- container -->
 
+	<canvas id="myCanvas"></canvas>
+
     <script type="text/javascript">
 
-		  var partList
+		//TODO
+		//
+		//add canvas for image
+
+		var partList
+		var part //selected part obj
 			        
         // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
         $(document).ready(function() {
@@ -141,14 +148,45 @@
 				partList = json      
 			})
 			.done(function() {
-				//console.log(parts)
+				//console.log(partList)
 				for(i=0;i<partList.part.length;i++){
-					var option = "<option" + " value=\"" + partList.part[i].angle + "\">" + partList.part[i].partNo + " " + partList.part[i].angle + "</option>"
+					var option = "<option value=\"" + partList.part[i].partNo + "\">" + partList.part[i].partNo + " " + partList.part[i].type + " " + partList.part[i].len + "</option>"
 					$("#part-list").append(option)
 				}
 			})
 
-        });			
+        });	
+
+		function draw(){
+
+			c = document.getElementById("myCanvas")
+			ctx = c.getContext("2d")
+			ctx.canvas.width = $(window).innerWidth()-300
+			ctx.canvas.height = $(window).innerHeight()-100
+				for(i=0;i<partList.part.length;i++){
+					if((document.getElementById("part-list").value)==(partList.part[i].partNo)){
+						part=partList.part[i]
+					}
+				}
+			console.log(part)
+			ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
+			ctx.fillStyle="#eee"
+			ctx.strokeStyle="#666"
+			ctx.lineWidth="2"
+			//document.getElementById("myCanvas").style.left=""
+			ctx.rect(5,5,parseFloat(part.len*2)+5,40+5)
+			ctx.fill()
+			ctx.stroke()
+			ctx.font = "16px Arial"
+			ctx.fillStyle="#ff0000"
+			ctx.fillText( (parseFloat(part.len)).toFixed(2) + "\"",(part.len)-15,80)		
+		
+
+		}
+
+		$( "#part-list" ).change(function() {
+  			draw();
+		});		
 
     </script>
   </body>

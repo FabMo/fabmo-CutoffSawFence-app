@@ -2,6 +2,14 @@ body {
 	margin-top: 10px;
 }
 
+#myCanvas{
+	position: absolute;
+	left: 440px;
+	top:80px;
+	background: #fff;
+
+}
+
 #ctrl-xdisplay{
     font-size: 48px;
     text-align: right;
