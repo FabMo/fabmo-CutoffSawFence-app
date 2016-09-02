@@ -97,13 +97,7 @@
 
               <form>
                 <select id="part-list" class="part-input" autocomplet="off">
-						<option value="part" selected disabled>Parts</option>
-						<!--
-                  <option value="120.00"> 000925  Table Side    96  120.00</option>
-                  <option value="61.25">  002628  Bar Tool PRS  48   61.25</option>
-                  <option value="73.25">  002629  Bar Tool PRS  60   73.25</option>
-                  <option value="85.25">  002630  Bar Tool PRS  72   85.25</option>
-						-->
+						<option value="part" selected disabled>Select Part</option>
                 </select>
               </form>
               </p>
@@ -198,21 +192,40 @@
 			ctx.fillStyle="#ddd"
 			ctx.strokeStyle="#333"
 			ctx.lineWidth="1"
-			ctx.rect(20,ctx.canvas.height/2-20,parseFloat(part.len*5),part.width*5)
-			ctx.rect((part.len*5)+140,ctx.canvas.height/2-20,parseFloat(part.height*5),part.width*5)
+			ctx.rect(20,ctx.canvas.height/2-(part.width*2.5),parseFloat(part.len*5),part.width*5)
+			ctx.rect((part.len*5)+140,ctx.canvas.height/2-(part.width*2.5),parseFloat(part.height*5),part.width*5)
 			ctx.fill()
 			ctx.stroke()
 
 			ctx.font = "16px Arial"
 			ctx.fillStyle="#ff0000"
-			ctx.fillText( (parseFloat(part.len)).toFixed(3) + "\"",parseInt(part.len*2.5),(ctx.canvas.height/2)+(parseInt(part.width*5))+20)
-			ctx.fillText( (parseFloat(part.height)).toFixed(3) + "\"",parseInt(part.len*5+130),(ctx.canvas.height/2)+(parseInt(part.width*5))+20)
-			ctx.fillText( (parseFloat(part.width)).toFixed(3) + "\"",parseInt(part.len*5+190),(ctx.canvas.height/2))
+			var len = (parseFloat(part.len)).toFixed(3) + "\""
+			ctx.fillText( len,parseInt(part.len*2.5),(ctx.canvas.height/2)+80)
+			ctx.fillText( (parseFloat(part.height)).toFixed(3) + "\"",parseInt(part.len*5+130),(ctx.canvas.height/2)+80)
+			ctx.fillText( (parseFloat(part.width)).toFixed(3) + "\"",parseInt(part.len*5+195),(ctx.canvas.height/2)+8)
 
 			//dim lines
-			ctx.strokeStyle="#ff0000"		
-		
+			ctx.lineWidth="0.7"
+			ctx.strokeStyle="#ff0000"
 
+			ctx.beginPath()
+			ctx.moveTo(20,(ctx.canvas.height/2)+50)
+			ctx.lineTo(20,(ctx.canvas.height/2)+55)
+			ctx.lineTo((part.len*5)+20,(ctx.canvas.height/2)+55)
+			ctx.lineTo((part.len*5)+20,(ctx.canvas.height/2)+50)
+
+			ctx.moveTo((part.len*5)+140,(ctx.canvas.height/2)+50)
+			ctx.lineTo((part.len*5)+140,(ctx.canvas.height/2)+55)
+			ctx.lineTo((part.len*5)+140+(part.height*5),(ctx.canvas.height/2)+55)
+			ctx.lineTo((part.len*5)+140+(part.height*5),(ctx.canvas.height/2)+50)
+
+			ctx.moveTo((part.len*5)+180,(ctx.canvas.height/2)+(part.width*2.5))
+			ctx.lineTo((part.len*5)+185,(ctx.canvas.height/2)+(part.width*2.5))
+			ctx.lineTo((part.len*5)+185,(ctx.canvas.height/2)-(part.width*2.5))
+			ctx.lineTo((part.len*5)+180,(ctx.canvas.height/2)-(part.width*2.5))
+			
+			ctx.stroke()		
+		
 		}
 
 		$( "#part-list" ).change(function() {
