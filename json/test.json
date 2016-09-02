@@ -1,6 +1,19 @@
 {"part":[
-    {"partNo":"000925", "type":"Table Side", "len":"120.00", "width":"6.00", "height":"4"},
-    {"partNo":"002628", "type":"Bar Tool PRS", "len":"61.25", "width":"3.00", "height":"2"},
-    {"partNo":"002629", "type":"Bar Tool PRS", "len":"73.25", "width":"3.00", "height":"3"},
-    {"partNo":"002630", "type":"Bar Tool PRS", "len":"85.25", "width":"3.00", "height":"1"}
+	{
+		"type":"Table Sides",
+		"list":[
+			{"partNo":"000925", "name":"Table Side", "len":"120.00", "width":"6.00", "height":"4"},
+			{"partNo":"002628", "name":"Bar Tool PRS", "len":"61.25", "width":"3.00", "height":"2"},
+			{"partNo":"002629", "name":"Bar Tool PRS", "len":"73.25", "width":"3.00", "height":"3"},
+			{"partNo":"002630", "name":"Bar Tool PRS", "len":"85.25", "width":"3.00", "height":"1"}
+		]
+	},
+	{
+		"type":"Deck Planks",
+		"list":[
+			{"partNo":"000000", "name":"Deck Extrusion MAX", "len":"120.00", "width":"6.00", "height":"4"},
+			{"partNo":"000001", "name":"Deck Extrusion DT", "len":"61.25", "width":"3.00", "height":"2"}
+		]
+	}
 ]}
+

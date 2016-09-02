@@ -97,7 +97,7 @@
 
               <form>
                 <select id="part-list" class="part-input" autocomplet="off">
-						<option value="part" selected disabled>select part to cut</option>
+						<option value="part" selected disabled>Parts</option>
 						<!--
                   <option value="120.00"> 000925  Table Side    96  120.00</option>
                   <option value="61.25">  002628  Bar Tool PRS  48   61.25</option>
@@ -131,6 +131,7 @@
 
 		//TODO
 		//
+		
 
 		var partList
 		var part //selected part obj
@@ -148,10 +149,15 @@
 				partList = json      
 			})
 			.done(function() {
-				//console.log(partList)
+				console.log(partList)
+				//alert(partList.part)
 				for(i=0;i<partList.part.length;i++){
-					var option = "<option value=\"" + partList.part[i].partNo + "\">" + partList.part[i].partNo + " " + partList.part[i].type + " " + partList.part[i].len + "</option>"
+					var option = "<option value=\"" + partList.part[i].type + "\" disabled>" + partList.part[i].type + ":</option>"
 					$("#part-list").append(option)
+					for(j=0;j<partList.part[i].list.length;j++){
+						option = "<option value=\"" + partList.part[i].list[j].partNo + "\">" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name +"</option>"
+						$("#part-list").append(option)
+					}
 				}
 			})
 
@@ -159,12 +165,15 @@
 
 		function draw(){
 
+
 			c = document.getElementById("myCanvas")
 			ctx = c.getContext("2d")
 
 				for(i=0;i<partList.part.length;i++){
-					if((document.getElementById("part-list").value)==(partList.part[i].partNo)){
-						part=partList.part[i]
+					for(j=0;j<partList.part[i].list.length;j++){
+						if((document.getElementById("part-list").value)==(partList.part[i].list[j].partNo)){
+							part=partList.part[i].list[j]
+						}
 					}
 				}
 			//console.log(part)
