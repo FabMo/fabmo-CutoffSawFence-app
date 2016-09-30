@@ -21,7 +21,7 @@
         <li class="active"><a href="#tab-manualControl" role="tab" data-toggle="tab">Manual Control</a></li>
         <li><a href="#tab-listControl" role="tab" data-toggle="tab">List Control</a></li>
         <li><a href="#tab-autoControl" role="tab" data-toggle="tab">Auto Control</a></li>
-        <li><a href="#tab-parts" role="tab" data-toggle="tab">Edit Parts</a></li>
+        <li><a href="#tab-parts" role="tab" data-toggle="tab">Parts</a></li>
       </ul>
 
       <div class="tab-content">
@@ -98,7 +98,7 @@
 
               <form>
                 <select id="part-list" class="part-input" autocomplet="off">
-						<option value="part" selected disabled>Select Part</option>
+						<!--<option value="part" selected disabled>Select Part</option>-->
                 </select>
               </form>
               </p>
@@ -132,8 +132,6 @@
       </div> <!-- tab content -->
     </div><!-- container -->
 
-	
-
     <script type="text/javascript">
 
 		//TODO
@@ -142,6 +140,7 @@
 
 		var partList
 		var part //selected part obj
+		var myConfig = {}
 			        
         // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
         $(document).ready(function() {
@@ -152,16 +151,29 @@
             }
           });
 
+			loadDefault();
+
+			fabmo.getAppConfig(function(err, myConfig) {
+				if(myConfig != null){
+					partList=myConfig;
+					clearAll();
+					loadParts();
+				}
+			});
+				
+        });	
+
+		function loadDefault(){
+
 			jQuery.getJSON("json/parts.json", function(json) {
 				partList = json      
 			})
 			.done(function() {
-				console.log(partList)
-				//alert(partList.part)
-				loadParts()
+				//console.log(partList)
+				loadParts();
 			})
 
-        });	
+		}
 
 		function draw(){
 
@@ -179,7 +191,6 @@
 			//console.log(part)
 			ctx.canvas.width = parseInt(part.len*5)+250//$(window).innerWidth()-300
 			ctx.canvas.height = 200
-
 
 			ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
 			//
@@ -246,12 +257,13 @@
 			setTimeout("draw();", 1000);
 		};
 
-		function clearAll(){
-			$("#part-list").empty()
-			$("#part-list2").empty()
-		}
+function clearAll(){
+	$("#part-list").empty()
+	$("#part-list2").empty()
+}
 
-function startRead(){  
+function startRead(){
+	clearAll()  
 	var file = document.getElementById('load-json').files[0];
 	if(file){
 		getAsText(file)    
@@ -290,22 +302,20 @@ function errorHandler(e)
 }
 
 function loadParts(){
+	myConfig = partList
+	fabmo.setAppConfig(myConfig)
+	for(i=0;i<partList.part.length;i++){
+		var option = "<option value=\"" + partList.part[i].type + "\" disabled>" + partList.part[i].type + ":</option>"
+		$("#part-list").append(option)
+		$("#part-list2").append("<b>" + partList.part[i].type + "</b><br>")
 
-				for(i=0;i<partList.part.length;i++){
-					var option = "<option value=\"" + partList.part[i].type + "\" disabled>" + partList.part[i].type + ":</option>"
-					$("#part-list").append(option)
-
-					$("#part-list2").append("<b>" + partList.part[i].type + "</b><br>")
-
-					for(j=0;j<partList.part[i].list.length;j++){
-						option = "<option value=\"" + partList.part[i].list[j].partNo + "\">" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name +"</option>"
-						$("#part-list").append(option)
-
-						$("#part-list2").append("&emsp;" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name + "<br>")
-
-					}
-				}
-
+		for(j=0;j<partList.part[i].list.length;j++){
+			option = "<option value=\"" + partList.part[i].list[j].partNo + "\">" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name +"</option>"
+			$("#part-list").append(option)
+			$("#part-list2").append("&emsp;" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name + " - " + partList.part[i].list[j].len + "x" + partList.part[i].list[j].width + "x" + partList.part[i].list[j].height + "\"<br>")
+		}
+	}
+	draw()
 }
 
 function download(){
