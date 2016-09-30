@@ -2,6 +2,10 @@ body {
 	margin-top: 10px;
 }
 
+#download-link{
+	display:none;
+}
+
 #myCanvas{
 	position: absolute;
 	/*

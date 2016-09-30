@@ -21,6 +21,7 @@
         <li class="active"><a href="#tab-manualControl" role="tab" data-toggle="tab">Manual Control</a></li>
         <li><a href="#tab-listControl" role="tab" data-toggle="tab">List Control</a></li>
         <li><a href="#tab-autoControl" role="tab" data-toggle="tab">Auto Control</a></li>
+        <li><a href="#tab-parts" role="tab" data-toggle="tab">Edit Parts</a></li>
       </ul>
 
       <div class="tab-content">
@@ -116,6 +117,18 @@
             <script src="js/job.js"></script>
         </div>
 
+		<div class="tab-pane active" id="tab-parts">
+			<h3><b>parts:</b></h3>
+			<div id="part-list2"></div>
+			<p>
+			<input type="file" id="load-json" value="LOAD" onchange="startRead()"/>
+			<p>
+			<input type="submit" id="download-json" value="DOWNLOAD" onclick="download()"/>
+			<a href="#" id="download-link"></a>
+			<p>
+			<input type="submit" id="delete-json" value="CLEAR" onclick="clearAll()"/>
+		</div>
+
       </div> <!-- tab content -->
     </div><!-- container -->
 
@@ -139,20 +152,13 @@
             }
           });
 
-			jQuery.getJSON("json/test.json", function(json) {
+			jQuery.getJSON("json/parts.json", function(json) {
 				partList = json      
 			})
 			.done(function() {
 				console.log(partList)
 				//alert(partList.part)
-				for(i=0;i<partList.part.length;i++){
-					var option = "<option value=\"" + partList.part[i].type + "\" disabled>" + partList.part[i].type + ":</option>"
-					$("#part-list").append(option)
-					for(j=0;j<partList.part[i].list.length;j++){
-						option = "<option value=\"" + partList.part[i].list[j].partNo + "\">" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name +"</option>"
-						$("#part-list").append(option)
-					}
-				}
+				loadParts()
 			})
 
         });	
@@ -239,8 +245,78 @@
 		window.onload = function(){
 			setTimeout("draw();", 1000);
 		};
-	
 
+		function clearAll(){
+			$("#part-list").empty()
+			$("#part-list2").empty()
+		}
+
+function startRead(){  
+	var file = document.getElementById('load-json').files[0];
+	if(file){
+		getAsText(file)    
+	}
+}
+
+function getAsText(readFile){
+	var reader
+
+	try{
+		reader = new FileReader()
+	}
+
+	catch(e){
+		console.log("Error: seems File API is not supported on your browser")
+		return;
+	  }
+   
+  reader.readAsText(readFile, "UTF-8")
+  reader.onload = loaded;
+  reader.onerror = errorHandler;
+}
+
+function loaded(e){   
+	fileString = JSON.parse(e.target.result);
+	partList=fileString
+	loadParts()
+}
+
+function errorHandler(e)
+{
+  if(e.target.error.code == e.target.error.NOT_READABLE_ERR)
+	{
+		console.log("Error reading file...")
+  }
+}
+
+function loadParts(){
+
+				for(i=0;i<partList.part.length;i++){
+					var option = "<option value=\"" + partList.part[i].type + "\" disabled>" + partList.part[i].type + ":</option>"
+					$("#part-list").append(option)
+
+					$("#part-list2").append("<b>" + partList.part[i].type + "</b><br>")
+
+					for(j=0;j<partList.part[i].list.length;j++){
+						option = "<option value=\"" + partList.part[i].list[j].partNo + "\">" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name +"</option>"
+						$("#part-list").append(option)
+
+						$("#part-list2").append("&emsp;" + partList.part[i].list[j].partNo + " " + partList.part[i].list[j].name + "<br>")
+
+					}
+				}
+
+}
+
+function download(){
+
+		var jsonStr = JSON.stringify(partList ,null ,2)
+		var link = document.getElementById("download-link")
+		link.setAttribute("href", "data:text/plain;base64," + btoa(jsonStr))
+		link.setAttribute("download", "partList.json")
+		link.click()
+
+}
     </script>
   </body>
 </html>
