@@ -24,6 +24,7 @@
         <li><a href="#tab-parts" role="tab" data-toggle="tab">Parts</a></li>
       </ul>
 
+
       <div class="tab-content">
         <!-- Control Pane -->
         <div class="tab-pane active" id="tab-manualControl">
@@ -117,16 +118,18 @@
             <script src="js/job.js"></script>
         </div>
 
-		<div class="tab-pane active" id="tab-parts">
-			<h3><b>parts:</b></h3>
+		<div class="tab-pane" id="tab-parts">
+
 			<div id="part-list2"></div>
-			<p>
-			<input type="file" id="load-json" value="LOAD" onchange="startRead()"/>
-			<p>
-			<input type="submit" id="download-json" value="DOWNLOAD" onclick="download()"/>
-			<a href="#" id="download-link"></a>
-			<p>
-			<input type="submit" id="delete-json" value="CLEAR" onclick="clearAll()"/>
+			<div class="input-group">
+				<p>
+				<input type="file" id="load-json" value="LOAD" onchange="startRead()"/>
+				<p>
+				<input type="submit" id="download-json" value="DOWNLOAD" onclick="download()"/>
+				<a href="#" id="download-link"></a>
+				<p>
+				<input type="submit" id="delete-json" value="CLEAR" onclick="clearAll()"/>
+			</div>
 		</div>
 
       </div> <!-- tab content -->
@@ -137,7 +140,6 @@
 		//TODO
 		//
 		
-
 		var partList
 		var part //selected part obj
 		var myConfig = {}
@@ -281,7 +283,6 @@ function getAsText(readFile){
 		console.log("Error: seems File API is not supported on your browser")
 		return;
 	  }
-   
   reader.readAsText(readFile, "UTF-8")
   reader.onload = loaded;
   reader.onerror = errorHandler;
@@ -319,13 +320,11 @@ function loadParts(){
 }
 
 function download(){
-
-		var jsonStr = JSON.stringify(partList ,null ,2)
-		var link = document.getElementById("download-link")
-		link.setAttribute("href", "data:text/plain;base64," + btoa(jsonStr))
-		link.setAttribute("download", "partList.json")
-		link.click()
-
+	var jsonStr = JSON.stringify(partList ,null ,2)
+	var link = document.getElementById("download-link")
+	link.setAttribute("href", "data:text/plain;base64," + btoa(jsonStr))
+	link.setAttribute("download", "partList.json")
+	link.click()
 }
     </script>
   </body>
