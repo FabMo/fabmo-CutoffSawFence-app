@@ -12,23 +12,28 @@
     <script src="js/lib/jquery.js"></script>
     <script src="js/lib/bootstrap.min.js"></script>
     <script src="js/lib/fabmo.js"></script>
+    <script src="js/saw.js"></script>
+
     <script type="text/javascript">
-        var fabmo = new FabMoDashboard();
     </script>
     <div class="container">
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#tab-manualControl" role="tab" data-toggle="tab">Manual Control</a></li>
-        <li><a href="#tab-listControl" role="tab" data-toggle="tab">List Control</a></li>
+        <li><a href="#tab-settings" role="tab" data-toggle="tab">Settings</a></li>
+        <!--<li><a href="#tab-listControl" role="tab" data-toggle="tab">List Control</a></li>
         <li><a href="#tab-autoControl" role="tab" data-toggle="tab">Auto Control</a></li>
-        <li><a href="#tab-parts" role="tab" data-toggle="tab">Parts</a></li>
+        <li><a href="#tab-parts" role="tab" data-toggle="tab">Parts</a></li>-->
       </ul>
 
 
       <div class="tab-content">
         <!-- Control Pane -->
+
         <div class="tab-pane active" id="tab-manualControl">
-            
+          <div class="container">
+          <div class="row">
+            <div class="col col-xs-6">
             <h3>Current Length</h3>
               <p></p>
               <p>
@@ -47,16 +52,15 @@
 
               <p>
               <form class="form-inline" id="form-nav">
-                <div class="form-group has-success">
+                <div class="form-group">
                   <div class="input-group">
                       <!-- <span class="input-group-addon">X</span> -->
                       <input type="text" class="form-control num-input" id="ctrl-xinput" readonly>
-                      <button id="clear-num" class="btn-clear">Clear</button>
                   </div>
                 </div>
               </form>
               </p>
-              <button id="nav-go" class="btn-moveTool">Move Tool</button>
+              <button id="ctrl-movetool" class="btn-moveTool">Move Tool</button>
               </p>
               </p>
 
@@ -76,13 +80,22 @@
               <button data-id="." class="btn-keypad">.</button>
               <button id="back-space" class="btn-backspace">X</button>
 
-              <script src="js/control.js"></script>
+            </div> <!-- col -->
+            <div class="col col-xs-6">
+              <h3>Saw Selection:</h3>
+              <button  id="ctrl-aluminum" class="btn-saw aluminum">Aluminum</button>
+              <button  id="ctrl-steel" class="btn-saw steel">Steel</button>
+              <hr/>
+              <button  id="ctrl-home" class="btn-home">Home Tool</button>
+            </div> <!-- col -->
+          </div> <!-- row -->
+        </div> <!-- container -->
+      </div> <!-- tab pane -->
 
-        </div>
-        
+
         <div class="tab-pane" id="tab-listControl">
             <h2>List Selection of parts</h2>
-            
+
             <h3>Current Length</h3>
               <p></p>
               <p>
@@ -106,7 +119,7 @@
               <button id="nav-list" class="btn-moveTool ready">Move Tool</button>
               </p>
               </p>
-            <script src="js/dashboard.js"></script>
+          <!--  <script src="js/dashboard.js"></script> -->
 				<canvas id="myCanvas" class="form-group"></canvas>
         </div>
 
@@ -115,7 +128,6 @@
 
             <p>This page will contain a pull-down list of known parts. This list will contain a part number, description and length of the part. There will also be options for cutting multiple parts out of the same stick of material. The stop will move to the proper length once the GO button is pressed and initiate the cutting cycle, move to the next length and cut again until the material is exhausted. An image of the cross section of the material to be cut is one requested feature that will most likely be added.</p>
 
-            <script src="js/job.js"></script>
         </div>
 
 		<div class="tab-pane" id="tab-parts">
@@ -132,43 +144,71 @@
 			</div>
 		</div>
 
+    <div class="tab-pane" id="tab-settings" style="padding: 20px">
+      <form class="form-horizontal" id="form-settings">
+        <div class="form-group">
+          <label for="job-input-cx" class="col-sm-3 control-label">Aluminum Offset: </label>
+          <div class="col-sm-9">
+            <div class="input-group has-success">
+              <input class="form-control num-input" id="ctrl-settings-aluminum-offset" value="0.0">
+              <span class="input-group-addon">in</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="job-input-cy" class="col-sm-3 control-label">Steel Offset:</label>
+          <div class="col-sm-9">
+            <div class="input-group has-success">
+              <input class="form-control num-input" id="ctrl-settings-steel-offset" value="0.0">
+              <span class="input-group-addon">in</span>
+            </div>
+          </div>
+        </div>
+      </form>
+		</div>
+
       </div> <!-- tab content -->
     </div><!-- container -->
-
+    <script
     <script type="text/javascript">
 
 		//TODO
 		//
-		
+
 		var partList
 		var part //selected part obj
 		var myConfig = {}
-			        
-        // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
-        $(document).ready(function() {
-          $(window).keydown(function(event){
-            if(event.keyCode == 13) {
-              event.preventDefault();
-              return false;
-            }
-          });
 
+    // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
+    $(document).ready(function() {
+      var fabmo = new FabMoDashboard();
+      var app = new ChopSawApp(fabmo);
+
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+
+      app.init();
+
+/*
 			loadDefault();
 
-			fabmo.getAppConfig(function(err, myConfig) {
-				if(myConfig != null){
-					partList=myConfig;
-					clearAll();
-					loadParts();
-				}
-			});
-				
-        });	
-
+			fabmo.getAppConfig(function(err, config) {
+  				if(config != null){
+  					partList=myConfig.parts;
+  					clearAll();
+  					loadParts();
+            loadSettings();
+  				}
+			 }); */
+    });
+/*
 		function loadDefault(){
-
 			jQuery.getJSON("json/parts.json", function(json) {
-				partList = json      
+				partList = json
 			})
 			.done(function() {
 				//console.log(partList)
@@ -242,14 +282,14 @@
 			ctx.lineTo((part.len*5)+185,(ctx.canvas.height/2)+(part.width*2.5))
 			ctx.lineTo((part.len*5)+185,(ctx.canvas.height/2)-(part.width*2.5))
 			ctx.lineTo((part.len*5)+180,(ctx.canvas.height/2)-(part.width*2.5))
-			
-			ctx.stroke()		
-		
+
+			ctx.stroke()
+
 		}
 
 		$( "#part-list" ).change(function() {
   			draw();
-		});	
+		});
 
 		$(window).resize(function(){
 			draw()
@@ -265,10 +305,10 @@ function clearAll(){
 }
 
 function startRead(){
-	clearAll()  
+	clearAll()
 	var file = document.getElementById('load-json').files[0];
 	if(file){
-		getAsText(file)    
+		getAsText(file)
 	}
 }
 
@@ -288,7 +328,7 @@ function getAsText(readFile){
   reader.onerror = errorHandler;
 }
 
-function loaded(e){   
+function loaded(e){
 	fileString = JSON.parse(e.target.result);
 	partList=fileString
 	loadParts()
@@ -325,7 +365,7 @@ function download(){
 	link.setAttribute("href", "data:text/plain;base64," + btoa(jsonStr))
 	link.setAttribute("download", "partList.json")
 	link.click()
-}
+}*/
     </script>
   </body>
 </html>

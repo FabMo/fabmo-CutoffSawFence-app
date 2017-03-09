@@ -7,8 +7,8 @@ body {
 }
 
 #myCanvas{
-	position: absolute;
-	/*
+	/*position: absolute;
+
 	left: 0px;
 	top:400px;
 	*/
@@ -31,12 +31,17 @@ body {
 	width: 275px;
 }
 
+.btn-disabled {
+	opacity: 0.5;
+}
+
 .btn-moveTool {
 	font-size: 48px;
-    color: rgb(255, 255, 255);
-    background-color: rgb(0, 232, 15);
+    color: white;
+    background-color: rgb(0, 150, 0);
     height: 80px;
     width: 275px;
+		border-radius: 10px;
 }
 
 .ready {
@@ -49,25 +54,55 @@ body {
 
 .btn-keypad {
 	font-size: 48px;
-    color: rgb(255, 255, 255);
+  color: white;
 	background-color: blue;
 	height: 90px;
 	width: 90px;
+	border-radius: 10px;
+}
+
+.btn-saw {
+	font-size: 48px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	shadow: 0;
+	width: 100%;
+}
+
+.btn-home {
+	font-size: 36px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	shadow: 0;
+	width: 100%;
+	background-color: darkred;
+	color: white;
+}
+
+.aluminum {
+	background-color: #2094ab;
+	color: white;
+}
+
+.steel {
+	background-color: #f7cc12;
+	color: #443805;
 }
 
 .btn-backspace {
 	font-size: 48px;
-    color: rgb(255, 255, 255);
+  color: white;
 	background-color: blue;
 	height: 90px;
 	width: 90px;
+	border-radius: 10px;
 }
 
 #ctrl-xdisplay2{
     font-size: 48px;
     text-align: right;
     height: 80px;
-	width: 275px;
+		width: 275px;
 }
 
 .part-input {
