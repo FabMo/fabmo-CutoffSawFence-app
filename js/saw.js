@@ -11,7 +11,6 @@ function validateInput(target) {
   }
 }
 
-
 var ChopSawApp = function(fabmo) {
   this.offsets = {
     'steel' : 0.0,
@@ -25,24 +24,22 @@ var ChopSawApp = function(fabmo) {
 ChopSawApp.prototype.init = function(callback) {
   callback = callback || function() {};
   this.loadConfig(function(err) {
-    this.applyConfig();
     this.initToolControls();
     this.initKeypad();
     this.initSettingsControls();
     this.applyConfig();
-    this.fabmo.requestStatus();
   }.bind(this));
 }
 
 ChopSawApp.prototype.initKeypad = function() {
   // When the go button is pressed, validate the inputs and move the tool (if valid)
   $("#back-space").click(function(evt) {
-    var bx = $("#ctrl-xinput").val();
+    var bx = new String($("#ctrl-xinput").val());
     if(bx !== null) {
       // add limit checking
       var len = bx.length - 1;
-      var newX = bx.slice(0,len);
-      $("#ctrl-xinput").val(newX);
+      var newX = bx.substr(0,len);
+      $("#ctrl-xinput").val(newX );
     } else {
         this.fabmo.notify('error', "Position specified is invalid: " + x );
     }
@@ -51,30 +48,24 @@ ChopSawApp.prototype.initKeypad = function() {
 
   $(".btn-keypad").click(function(evt) {
     var int = $(this).data('id');
-    var currentVal = $("#ctrl-xinput").val();
-    var newVal = currentVal + int;
-    $("#ctrl-xinput").val(newVal);
+    if(int >= 0 || int === '.') {
+      var currentVal = $("#ctrl-xinput").val();
+      var newVal = currentVal + int;
+      $("#ctrl-xinput").val(newVal);      
+    }
   });
 }
 
 ChopSawApp.prototype.initToolControls = function() {
-  console.log("init tool controls")
-  // Aluminum saw select
-  $("#ctrl-aluminum").click(function(evt) {
-    this.tool = "aluminum";
-    this.saveConfig();
-    this.applyConfig();
-  }.bind(this));
+  var app = this;
+  $(".btn-tool-select").click(function(evt) {
+    app.tool = app.tool === 'aluminum' ? 'steel' : 'aluminum';
+    app.saveConfig();
+    app.applyConfig();
+  })
 
-  // Steel saw select
-  $("#ctrl-steel").click(function(evt) {
-    this.tool = "steel";
-    this.saveConfig();
-    this.applyConfig();
-  }.bind(this));
-
-  $("#ctrl-home").click(function(evt) {
-    this.fabmo.runMacro(2);
+  $(".btn-run-macro").click(function(evt) {
+    this.fabmo.runMacro($(this).data('macro'));
   }.bind(this));
 
   // Drive tool
@@ -82,6 +73,7 @@ ChopSawApp.prototype.initToolControls = function() {
     var x = validateInput($("#ctrl-xinput"));
     if(x !== null) {
       // add limit checking
+        x -= this.offsets[this.tool];
         var gcode = "G0 X" + x;
         $("#ctrl-xinput").val('');
         this.fabmo.runGCode(gcode);
@@ -103,6 +95,17 @@ ChopSawApp.prototype.initToolControls = function() {
 }
 
 ChopSawApp.prototype.initSettingsControls = function(callback) {
+  $(".txt-tool-offset").change(function(evt) {
+
+      var tool = $(evt.target).data('tool');
+      console.log(tool)
+      console.log(this)
+
+      var offset = validateInput($(evt.target));
+      if(offset != null) { this.offsets[tool] = offset; }
+      this.saveConfig();
+  }.bind(this));
+/*
   $("#ctrl-settings-aluminum-offset").change(function(evt) {
       var offset = validateInput($(evt.target));
       if(offset != null) { this.offsets['aluminum'] = offset; }
@@ -115,6 +118,7 @@ ChopSawApp.prototype.initSettingsControls = function(callback) {
       if(offset != null) { this.offsets['steel'] = offset; }
       this.saveConfig();
   }.bind(this));
+  */
 }
 
 ChopSawApp.prototype.saveConfig = function(callback) {
@@ -144,12 +148,10 @@ ChopSawApp.prototype.loadConfig = function(callback) {
 ChopSawApp.prototype.applyConfig = function() {
   switch(this.tool) {
     case 'aluminum':
-      $("#ctrl-steel").addClass("btn-disabled");
-      $("#ctrl-aluminum").removeClass("btn-disabled");
+      $("#ctrl-select").removeClass('steel').addClass('aluminum').text('Aluminum');
       break;
     case 'steel':
-      $("#ctrl-steel").removeClass("btn-disabled");
-      $("#ctrl-aluminum").addClass("btn-disabled");
+      $("#ctrl-select").removeClass('aluminum').addClass('steel').text('Steel');
       break;
     default:
       console.warn("Unknown tool in configuration: " + this.tool);
@@ -158,5 +160,5 @@ ChopSawApp.prototype.applyConfig = function() {
 
   $("#ctrl-settings-steel-offset").val(this.offsets['steel']);
   $("#ctrl-settings-aluminum-offset").val(this.offsets['aluminum']);
-
+  this.fabmo.requestStatus();
 }

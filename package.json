@@ -2,8 +2,9 @@
 	"name":"FabMo Fence",
 	"main":"./index.html",
 	"icon":"icon.png",
-	"icon_color":"white",
-	"version":"0.0.1",
+	"icon_color":"#1e1413",
+	"version":"0.1.0",
+    "id":"fabmo-fence",
 	"author":"Gordon Bergfors",
 	"website":"http://github.com/FabMo/",
 	"description":"Cutoff Saw automated fence app"

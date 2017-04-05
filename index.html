@@ -33,7 +33,7 @@
         <div class="tab-pane active" id="tab-manualControl">
           <div class="container">
           <div class="row">
-            <div class="col col-xs-6">
+            <div class="col col-xs-8">
             <h3>Current Length</h3>
               <p></p>
               <p>
@@ -47,9 +47,7 @@
                 </form>
               </p>
               </p>
-
             <p>Enter the length of the cut</p>
-
               <p>
               <form class="form-inline" id="form-nav">
                 <div class="form-group">
@@ -60,33 +58,32 @@
                 </div>
               </form>
               </p>
-              <button id="ctrl-movetool" class="btn-moveTool">Move Tool</button>
+              <button id="ctrl-movetool" class="btn btn-moveTool">Move Tool</button>
               </p>
               </p>
 
-              <button data-id="1" class="btn-keypad">1</button>
-              <button data-id="2" class="btn-keypad">2</button>
-              <button data-id="3" class="btn-keypad">3</button>
-              <p></p>
-              <button data-id="4" class="btn-keypad">4</button>
-              <button data-id="5" class="btn-keypad">5</button>
-              <button data-id="6" class="btn-keypad">6</button>
-              <p></p>
-              <button data-id="7" class="btn-keypad">7</button>
-              <button data-id="8" class="btn-keypad">8</button>
-              <button data-id="9" class="btn-keypad">9</button>
-              <p></p>
-              <button data-id="0" class="btn-keypad">0</button>
-              <button data-id="." class="btn-keypad">.</button>
-              <button id="back-space" class="btn-backspace">X</button>
+              <button data-id="1" class="btn btn-keypad">1</button>
+              <button data-id="2" class="btn btn-keypad">2</button>
+              <button data-id="3" class="btn btn-keypad">3</button>
+              <br/>
+              <button data-id="4" class="btn btn-keypad">4</button>
+              <button data-id="5" class="btn btn-keypad">5</button>
+              <button data-id="6" class="btn btn-keypad">6</button>
+              <br/>
+              <button data-id="7" class="btn btn-keypad">7</button>
+              <button data-id="8" class="btn btn-keypad">8</button>
+              <button data-id="9" class="btn btn-keypad">9</button>
+              <br/>
+              <button data-id="0" class="btn btn-keypad">0</button>
+              <button data-id="." class="btn btn-keypad">.</button>
+              <button  id="back-space" class="btn btn-keypad backspace">X</button>
 
             </div> <!-- col -->
-            <div class="col col-xs-6">
-              <h3>Saw Selection:</h3>
-              <button  id="ctrl-aluminum" class="btn-saw aluminum">Aluminum</button>
-              <button  id="ctrl-steel" class="btn-saw steel">Steel</button>
-              <hr/>
-              <button  id="ctrl-home" class="btn-home">Home Tool</button>
+            <div class="col col-xs-4">
+              <h3>Saw Select:</h3>
+              <button id="ctrl-select" class="btn btn-saw btn-tool-select">&nbsp;</button>
+              <h3>Tool Setup:</h3>
+              <button  data-macro="3" id="ctrl-home" class="btn btn-home btn-run-macro">Home Tool</button>
             </div> <!-- col -->
           </div> <!-- row -->
         </div> <!-- container -->
@@ -150,7 +147,7 @@
           <label for="job-input-cx" class="col-sm-3 control-label">Aluminum Offset: </label>
           <div class="col-sm-9">
             <div class="input-group has-success">
-              <input class="form-control num-input" id="ctrl-settings-aluminum-offset" value="0.0">
+              <input data-tool="aluminum" class="form-control num-input txt-tool-offset" id="ctrl-settings-aluminum-offset" value="0.0">
               <span class="input-group-addon">in</span>
             </div>
           </div>
@@ -159,12 +156,18 @@
           <label for="job-input-cy" class="col-sm-3 control-label">Steel Offset:</label>
           <div class="col-sm-9">
             <div class="input-group has-success">
-              <input class="form-control num-input" id="ctrl-settings-steel-offset" value="0.0">
+              <input data-tool="steel" class="form-control num-input txt-tool-offset" id="ctrl-settings-steel-offset" value="0.0">
               <span class="input-group-addon">in</span>
             </div>
           </div>
         </div>
       </form>
+      <h3>About Offset Values</h3>
+      <p>
+      The offset values shown above provide compensation to account for the distance between the tool stop and
+       the blade of each tool.  To determine the offset for each tool, follow the procedure below:
+      </p>
+      </thead>
 		</div>
 
       </div> <!-- tab content -->

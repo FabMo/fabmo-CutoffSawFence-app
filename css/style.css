@@ -7,11 +7,6 @@ body {
 }
 
 #myCanvas{
-	/*position: absolute;
-
-	left: 0px;
-	top:400px;
-	*/
 	border: solid 2px #ddd;
 	background: #fff;
 
@@ -20,8 +15,10 @@ body {
 #ctrl-xdisplay{
     font-size: 48px;
     text-align: right;
-    height: 80px;
-	 width: 275px;
+		height: 80px;
+		width: 275px;
+		margin: 3px;
+		border-radius: 10px;
 }
 
 #ctrl-xinput {
@@ -29,19 +26,23 @@ body {
 	text-align: right;
 	height: 80px;
 	width: 275px;
+	margin: 3px;
+	border-radius: 10px;
 }
 
 .btn-disabled {
-	opacity: 0.5;
+	opacity: 0.3;
 }
 
 .btn-moveTool {
-	font-size: 48px;
+		font-size: 48px;
     color: white;
-    background-color: rgb(0, 150, 0);
-    height: 80px;
+    background-color: #32b433;
+    height: 90px;
     width: 275px;
 		border-radius: 10px;
+		border: 3px solid darkgreen;
+			margin: 3px;
 }
 
 .ready {
@@ -55,14 +56,34 @@ body {
 .btn-keypad {
 	font-size: 48px;
   color: white;
-	background-color: blue;
-	height: 90px;
-	width: 90px;
+	background-color: #2e3865;
+	height: 85px;
+	width: 85px;
 	border-radius: 10px;
+	margin: 3px;
+	padding: 0px;
+	border: 3px solid black;
+}
+
+.btn-keypad:hover {
+	color: white;
+}
+
+.btn-keypad:active {
+	background-color: #416CB5;
+
+}
+
+.btn-keypad:focus {
+	color: white;
+}
+
+.backspace {
+	background-color: #4f2e27;
 }
 
 .btn-saw {
-	font-size: 48px;
+	font-size: 24px;
 	border-radius: 10px;
 	margin-bottom: 20px;
 	shadow: 0;
@@ -70,7 +91,7 @@ body {
 }
 
 .btn-home {
-	font-size: 36px;
+	font-size: 18px;
 	border-radius: 10px;
 	margin-bottom: 20px;
 	shadow: 0;
@@ -89,14 +110,6 @@ body {
 	color: #443805;
 }
 
-.btn-backspace {
-	font-size: 48px;
-  color: white;
-	background-color: blue;
-	height: 90px;
-	width: 90px;
-	border-radius: 10px;
-}
 
 #ctrl-xdisplay2{
     font-size: 48px;
